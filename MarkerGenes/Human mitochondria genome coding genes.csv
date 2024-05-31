@@ -1,0 +1,57 @@
+HGNC ID (gene),Approved symbol,Approved name,Previous symbols,Chromosome,Group
+HGNC:50279,MT-LIPCAR,mitochondrially encoded long non-coding cardiac associated RNA,,mitochondria,Mitochondrially encoded long non-coding RNAs
+HGNC:7414,MT-ATP6,mitochondrially encoded ATP synthase membrane subunit 6,"MTATP6,RP",mitochondria,Mitochondrially encoded protein coding genes
+HGNC:7415,MT-ATP8,mitochondrially encoded ATP synthase membrane subunit 8,MTATP8,mitochondria,Mitochondrially encoded protein coding genes
+HGNC:7419,MT-CO1,mitochondrially encoded cytochrome c oxidase I,MTCO1,mitochondria,Mitochondrially encoded protein coding genes
+HGNC:7421,MT-CO2,mitochondrially encoded cytochrome c oxidase II,MTCO2,mitochondria,Mitochondrially encoded protein coding genes
+HGNC:7422,MT-CO3,mitochondrially encoded cytochrome c oxidase III,MTCO3,mitochondria,Mitochondrially encoded protein coding genes
+HGNC:7427,MT-CYB,mitochondrially encoded cytochrome b,MTCYB,mitochondria,Mitochondrially encoded protein coding genes
+HGNC:7455,MT-ND1,mitochondrially encoded NADH:ubiquinone oxidoreductase core subunit 1,MTND1,mitochondria,Mitochondrially encoded protein coding genes
+HGNC:7456,MT-ND2,mitochondrially encoded NADH:ubiquinone oxidoreductase core subunit 2,MTND2,mitochondria,Mitochondrially encoded protein coding genes
+HGNC:7458,MT-ND3,mitochondrially encoded NADH:ubiquinone oxidoreductase core subunit 3,MTND3,mitochondria,Mitochondrially encoded protein coding genes
+HGNC:7459,MT-ND4,mitochondrially encoded NADH:ubiquinone oxidoreductase core subunit 4,"MTND4,LHON",mitochondria,Mitochondrially encoded protein coding genes
+HGNC:7460,MT-ND4L,mitochondrially encoded NADH:ubiquinone oxidoreductase core subunit 4L,MTND4L,mitochondria,Mitochondrially encoded protein coding genes
+HGNC:7461,MT-ND5,mitochondrially encoded NADH:ubiquinone oxidoreductase core subunit 5,MTND5,mitochondria,Mitochondrially encoded protein coding genes
+HGNC:7462,MT-ND6,mitochondrially encoded NADH:ubiquinone oxidoreductase core subunit 6,MTND6,mitochondria,Mitochondrially encoded protein coding genes
+HGNC:7416,MT-ATT,mitochondrially encoded membrane attachment site,MTATT,mitochondria,Mitochondrially encoded regions
+HGNC:7424,MT-CSB1,mitochondrially encoded conserved sequence block I,MTCSB1,mitochondria,Mitochondrially encoded regions
+HGNC:7425,MT-CSB2,mitochondrially encoded conserved sequence block II,MTCSB2,mitochondria,Mitochondrially encoded regions
+HGNC:7426,MT-CSB3,mitochondrially encoded conserved sequence block III,MTCSB3,mitochondria,Mitochondrially encoded regions
+HGNC:7438,MT-HPR,mitochondrially encoded replication primer,MTHPR,mitochondria,Mitochondrially encoded regions
+HGNC:7439,MT-HSP1,mitochondrially encoded major H-strand promoter,MTHSP1,mitochondria,Mitochondrially encoded regions
+HGNC:7440,MT-HSP2,mitochondrially encoded minor H-strand promoter,MTHSP2,mitochondria,Mitochondrially encoded regions
+HGNC:7447,MT-LSP,mitochondrially encoded L-strand promoter,MTLSP,mitochondria,Mitochondrially encoded regions
+HGNC:7465,MT-OHR,mitochondrially encoded heavy strand origin of replication,MTOHR,mitochondria,Mitochondrially encoded regions
+HGNC:7466,MT-OLR,mitochondrially encoded light strand origin of replication,MTOLR,mitochondria,Mitochondrially encoded regions
+HGNC:7472,MT-RNR3,mitochondrially encoded 5S-like sequence,MTRNR3,mitochondria,Mitochondrially encoded regions
+HGNC:7476,MT-TAS,mitochondrially encoded termination associated sequence,MTTAS,mitochondria,Mitochondrially encoded regions
+HGNC:7480,MT-TER,mitochondrially encoded transcription terminator,MTTER,mitochondria,Mitochondrially encoded regions
+HGNC:7482,MT-TFH,mitochondrially encoded transcription factor binding site H,MTTFH,mitochondria,Mitochondrially encoded regions
+HGNC:7483,MT-TFL,mitochondrially encoded transcription factor binding site L,MTTFL,mitochondria,Mitochondrially encoded regions
+HGNC:7484,MT-TFX,mitochondrially encoded transcription factor binding site X,MTTFX,mitochondria,Mitochondrially encoded regions
+HGNC:7485,MT-TFY,mitochondrially encoded transcription factor binding site Y,MTTFY,mitochondria,Mitochondrially encoded regions
+HGNC:7409,MT-7SDNA,mitochondrially encoded 7S DNA,MT7SDNA,mitochondria,Mitochondrially encoded regions
+HGNC:7470,MT-RNR1,mitochondrially encoded 12S rRNA,MTRNR1,mitochondria,Mitochondrially encoded ribosomal RNAs
+HGNC:7471,MT-RNR2,mitochondrially encoded 16S rRNA,MTRNR2,mitochondria,Mitochondrially encoded ribosomal RNAs
+HGNC:7475,MT-TA,mitochondrially encoded tRNA-Ala (GCN),MTTA,mitochondria,Mitochondrially encoded transfer RNAs
+HGNC:7477,MT-TC,mitochondrially encoded tRNA-Cys (UGU/C),MTTC,mitochondria,Mitochondrially encoded transfer RNAs
+HGNC:7478,MT-TD,mitochondrially encoded tRNA-Asp (GAU/C),MTTD,mitochondria,Mitochondrially encoded transfer RNAs
+HGNC:7479,MT-TE,mitochondrially encoded tRNA-Glu (GAA/G),MTTE,mitochondria,Mitochondrially encoded transfer RNAs
+HGNC:7481,MT-TF,mitochondrially encoded tRNA-Phe (UUU/C),MTTF,mitochondria,Mitochondrially encoded transfer RNAs
+HGNC:7486,MT-TG,mitochondrially encoded tRNA-Gly (GGN),MTTG,mitochondria,Mitochondrially encoded transfer RNAs
+HGNC:7487,MT-TH,mitochondrially encoded tRNA-His (CAU/C),MTTH,mitochondria,Mitochondrially encoded transfer RNAs
+HGNC:7488,MT-TI,mitochondrially encoded tRNA-Ile (AUU/C),MTTI,mitochondria,Mitochondrially encoded transfer RNAs
+HGNC:7489,MT-TK,mitochondrially encoded tRNA-Lys (AAA/G),"MERRF,MTTK",mitochondria,Mitochondrially encoded transfer RNAs
+HGNC:7490,MT-TL1,mitochondrially encoded tRNA-Leu (UUA/G) 1,MTTL1,mitochondria,Mitochondrially encoded transfer RNAs
+HGNC:7491,MT-TL2,mitochondrially encoded tRNA-Leu (CUN) 2,MTTL2,mitochondria,Mitochondrially encoded transfer RNAs
+HGNC:7492,MT-TM,mitochondrially encoded tRNA-Met (AUA/G),MTTM,mitochondria,Mitochondrially encoded transfer RNAs
+HGNC:7493,MT-TN,mitochondrially encoded tRNA-Asn (AAU/C),MTTN,mitochondria,Mitochondrially encoded transfer RNAs
+HGNC:7494,MT-TP,mitochondrially encoded tRNA-Pro (CCN),MTTP,mitochondria,Mitochondrially encoded transfer RNAs
+HGNC:7495,MT-TQ,mitochondrially encoded tRNA-Gln (CAA/G),MTTQ,mitochondria,Mitochondrially encoded transfer RNAs
+HGNC:7496,MT-TR,mitochondrially encoded tRNA-Arg (CGN),MTTR,mitochondria,Mitochondrially encoded transfer RNAs
+HGNC:7497,MT-TS1,mitochondrially encoded tRNA-Ser (UCN) 1,MTTS1,mitochondria,Mitochondrially encoded transfer RNAs
+HGNC:7498,MT-TS2,mitochondrially encoded tRNA-Ser (AGU/C) 2,MTTS2,mitochondria,Mitochondrially encoded transfer RNAs
+HGNC:7499,MT-TT,mitochondrially encoded tRNA-Thr (ACN),"MTTT,LIMM",mitochondria,Mitochondrially encoded transfer RNAs
+HGNC:7500,MT-TV,mitochondrially encoded tRNA-Val (GUN),MTTV,mitochondria,Mitochondrially encoded transfer RNAs
+HGNC:7501,MT-TW,mitochondrially encoded tRNA-Trp (UGA/G),MTTW,mitochondria,Mitochondrially encoded transfer RNAs
+HGNC:7502,MT-TY,mitochondrially encoded tRNA-Tyr (UAU/C),MTTY,mitochondria,Mitochondrially encoded transfer RNAs
