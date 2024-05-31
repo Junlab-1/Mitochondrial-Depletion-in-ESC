@@ -21,7 +21,7 @@ The data analysis was primarily conducted using R software. This project mainly 
 
 ### Marker Gene Files
 - **Purpose**: Indicate the cell differentiate trends of mitochondrial depletion cells based on DEGs and DEPs
-- **Contents**: files
+- **Contents**: Files
 - **Reference**: CellMarker 2.0
 
 For more detailed information, please refer to the respective scripts and documentation within this repository.
