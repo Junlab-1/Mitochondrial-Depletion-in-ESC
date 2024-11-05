@@ -23,7 +23,7 @@ datao <- as.matrix(read.csv("ho/all_genecount/orangutan_ho_tpm.csv", row.names="
 datao <- datao[order(rownames(datao)),]
 
 # Load orangutan mitochondrial gene IDs
-omt <- read.table("MT_gene_ids.txt", header = FALSE)
+omt <- read.table("Orangutan_MT_gene_ids.txt", header = FALSE)
 oname <- sapply(rownames(datao), function(x) strsplit(x, "\\|")[[1]][1])
 mtindex <- oname %in% omt$V1
 
