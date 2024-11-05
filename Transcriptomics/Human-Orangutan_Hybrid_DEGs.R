@@ -253,3 +253,121 @@ B <- Heatmap(A,  # Expression matrix
 pdf(file = "HO_all_heatmap.pdf", width = 6, height = 8)
 print(B)  # Print the heatmap object
 dev.off()  # Close the PDF device
+
+#-------5 remove pseudogenes and redraw heatmap
+psedogenes<-read.table("psedogenelist4.txt")
+diff_gene_p<-diff_gene_p[!diff_gene_p$genename %in% psedogenes$V1,]
+datamat<-as.matrix(diff_gene_p[,c(8:13)])
+rownames(datamat)<-diff_gene_p$genename
+datamat=datamat[!is.na(diff_gene_p$genename),]                    
+A <- as.matrix(datamat) 
+glist<-read.table("H-O_coding_DEGs.txt",header = F)
+A<-A[rownames(A)%in%glist$V1,]
+for (i in 1:nrow(A)) A[i, ] <- scale(log(unlist(A[i, ] + 1), 2))
+B <- Heatmap(A,
+             cluster_columns = F,
+             col = colorRampPalette(c("blue","white","red"))(100),
+             show_row_names = T,
+             row_names_gp = gpar(fontsize = 6))
+pdf(file = "HO_coding_genes_heatmap.pdf",width = 5,height = 6)
+print(B)
+dev.off()
+
+#-------6 mitocondra gene expression level compare
+omt<-read.table("MT_gene_ids.txt",header = F)
+oname<-sapply(rownames(datao),function(x) strsplit(x, "\\|")[[1]][1])
+mtindex<-oname%in%omt$V1
+for (i in 1:nrow(datao[mtindex,])) {
+  mn<-rownames(datao)[mtindex]
+  i_name<-strsplit(mn[i],"\\|")[[1]][2]
+  if (is.na(i_name)) {
+    iname<-paste(mn[i],"|MT-",i,sep = "")
+  }else{
+    iname<-paste(strsplit(mn[i],"\\|")[[1]][1],"|MT-",i_name,sep = "")
+  }
+  rownames(datao)[mtindex][i]<-iname
+}
+dhname=sapply(rownames(datah),function(x) strsplit(x, "\\|")[[1]][2])
+doname=sapply(rownames(datao),function(x) strsplit(x, "\\|")[[1]][2])
+commonname<-dhname[dhname%in%doname]
+commonname<-commonname[!is.na(commonname)]
+datah<-as.data.frame(cbind(datah,dhname))
+datao<-as.data.frame(cbind(datao,doname))
+datah<-datah[dhname%in%commonname,]
+datao<-datao[doname%in%commonname,]
+colnames(datah)<-c("hHO_h1","hHO_h2","hHO_h3","hHO_o1","hHO_o2","hHO_o3","genename")
+colnames(datao)<-c("oHO_h1","oHO_h2","oHO_h3","oHO_o1","oHO_o2","oHO_o3","genename")
+datah<-datah[!is.na(datah$genename),]
+dname<-unique(datah$genename[duplicated(datah$genename)])
+for (i in 1:length(dname)) {
+  iindex=which(datah$genename==dname[i])
+  mmat=colMeans(apply(datah[iindex,1:6], 2, as.numeric))
+  if (i==1) {
+    datah2<-rbind(datah,c(mmat,dname[i]))
+    rmindex<-iindex
+  }else{
+    datah2<-rbind(datah2,c(mmat,dname[i]))
+    rmindex<-c(rmindex,iindex)
+  }
+  rownames(datah2)[nrow(datah2)] <- paste(rownames(datah[iindex,]), collapse="|")
+}
+datah2<-datah2[-rmindex,]
+datao<-datao[!is.na(datao$genename),]
+dname<-unique(datao$genename[duplicated(datao$genename)])
+for (i in 1:length(dname)) {
+  iindex=which(datao$genename==dname[i])
+  mmat=colMeans(apply(datao[iindex,1:6], 2, as.numeric))
+  if (i==1) {
+    datao2<-rbind(datao,c(mmat,dname[i]))
+    rmindex<-iindex
+  }else{
+    datao2<-rbind(datao2,c(mmat,dname[i]))
+    rmindex<-c(rmindex,iindex)
+  }
+  rownames(datao2)[nrow(datao2)] <- paste(rownames(datao[iindex,]), collapse="|")
+}
+datao2<-datao2[-rmindex,]
+datao2<-datao2[order(datao2$genename),]
+datah2<-datah2[order(datah2$genename),]
+# merge all
+if (identical(datah2$genename,datao2$genename)) {
+  data_deseq<-cbind(datah2,datao2)
+}else{
+  print("Not same!")
+}
+rownames(data_deseq)<-NULL
+countData <- apply(as.matrix(data_deseq[,c(1:6,8:13)]), 2, as.numeric)
+rownames(countData)<-data_deseq$genename
+countData<-round(countData,digits = 0)
+condition <- factor(c(rep("treat",6),rep("untreat",6)))
+colData <- data.frame(row.names=colnames(countData), condition)
+dds <- DESeqDataSetFromMatrix(countData, DataFrame(condition), design = ~ condition)
+dds <- DESeq(dds)
+res <- results(dds)
+dataall_deseq2 <-  merge(as.data.frame(res),as.data.frame(counts(dds,normalize=TRUE)),by="row.names",sort=FALSE)
+mtindex=which(grepl("MT-",dataall_deseq2$Row.names))
+# calculate MT gene counts
+datahnew_mt    <- colSums(dataall_deseq2[mtindex,8:13])
+dataonew_mt    <- colSums(dataall_deseq2[mtindex,14:19])
+mtdraw<-rbind(cbind(datahnew_mt,rownames(datahnew_mt),c(rep("HOh",3),rep("HOo",3)),rep("Human",6)),
+              cbind(datacnew_mt,rownames(dataonew_mt),c(rep("HOh",3),rep("HOo",3)),rep("Orangutan",6)))
+mtdraw<-as.data.frame(mtdraw)
+colnames(mtdraw)<-c("count","sample","specie")
+mtdraw$count<-as.numeric(mtdraw$count)
+library(dplyr)
+summary_mt <- mtdraw %>%
+  group_by(sample, specie) %>%
+  summarise(
+    mean_count = mean(count),
+    se = sd(count) / sqrt(3),  
+    .groups = 'drop'
+  )
+summary_mt$sample<-factor(summary_mt$sample,levels=c("HOh","HOo"))
+summary_mt$specie<-factor(summary_mt$specie,levels=c("Human","Orangutan"))
+ce<-ddply(summary_mt,"sample",transform,percent_weight=mean_count/sum(mean_count)*100)
+ce<-as.data.frame(ce)
+p_bar2<-ggplot(ce,aes(x=percent_weight,y=sample,fill=specie))+geom_bar(stat = "identity")+
+  theme_bw()+coord_flip()+ scale_x_continuous(limits = c(0, NA))+
+  scale_fill_manual(values = c("Human"="#1E88E5","Orangutan"="#FF8000"))
+p_bar3<-p_bar2+ geom_text(aes(label = round(percent_weight,2), x = percent_weight),size = 5,color = "black")
+ggsave("HO_mt_bar_percent.pdf", p_bar3, width=6,height=6)
