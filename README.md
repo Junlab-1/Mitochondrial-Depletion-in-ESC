@@ -8,8 +8,8 @@ The data analysis for this project is divided into three main parts:
 The data analysis was primarily conducted using R software. This project mainly includes three parts: transcriptomic data analysis, proteomic data analysis, and phosphoproteomic data analysis.
 
 ### Transcriptomic Data Analysis Code
-- **Purpose**: Used for quality control, gene counts normalization, differential expression genes (DEGs) calculation, function annotation, and visualization.
-- **Contents**: Scripts.
+- **Purpose**: FASTQ data trimming, alignment, and quantification, followed by gene count normalization, differential expression genes (DEGs) calculation, function annotation, and visualization.
+- **Contents**: Shell codes and R scripts.
 
 ### Proteomic Data Analysis Code
 - **Purpose**: Used for quality control, protein counts normalization, differential expression proteins (DEPs) calculation, function annotation, and visualization.
