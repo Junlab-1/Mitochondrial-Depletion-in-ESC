@@ -90,7 +90,6 @@ print(p)
 dev.off()
 
 # ---------------------------- calculated DEGs (Differentially Expressed Genes) ----------------------------
-
 # Set the number of control and case samples
 controlnum <- 3
 casenum <- 3
@@ -177,7 +176,7 @@ resdata$log2FoldChange <- -resdata$log2FoldChange
 
 #------2 DEGs (Differentially Expressed Genes)
 # Filter DEGs based on significance and fold change direction, then export results
-diff_gene_p <- resdata[resdata$pvalue < 0.05,]
+diff_gene_p <- resdata[resdata$padj < 0.05,]
 diff_gene_p$stat[diff_gene_p$log2FoldChange > 0] <- "Up"   # Mark genes upregulated
 diff_gene_p$stat[diff_gene_p$log2FoldChange < 0] <- "Down" # Mark genes downregulated
 diff_gene_p <- diff_gene_p[abs(diff_gene_p$log2FoldChange) > 1.5,] # Apply fold change threshold
@@ -187,7 +186,7 @@ write.table(resdata, sep = "\t", row.names = FALSE, quote = FALSE, "HOh_vs_HOo_a
 #-------3 Volcano plot and heatmap
 # Prepare data for plotting, highlighting significant changes
 data <- resdata
-data$threshold <- as.factor(ifelse(data$pvalue < 0.05 & abs(data$log2FoldChange) >= 1.5,
+data$threshold <- as.factor(ifelse(data$padj < 0.05 & abs(data$log2FoldChange) >= 1.5,
                                    ifelse(data$log2FoldChange >= 1.5, 'Up', 'Down'), 'Not'))
 data$genetype[!data$Row.names %in% diff_gene_p$Row.names] <- NA  # Annotate significant gene types
 data$genename[is.na(data$genetype)] <- NA  # Remove gene names for non-significant genes
@@ -207,9 +206,9 @@ ggsave(p6, file = "HO_All_correlation.pdf", width = 8, height = 8)
 
 # Prepare data and generate a volcano plot
 vdata <- arrange(data, padj)
-vdata$threshold <- as.factor(ifelse(vdata$pvalue < 0.05 & abs(vdata$log2FoldChange) >= 1.5,
+vdata$threshold <- as.factor(ifelse(vdata$padj < 0.05 & abs(vdata$log2FoldChange) >= 1.5,
                                     ifelse(vdata$log2FoldChange > 1.5, 'Up', 'Down'), 'Not'))
-p <- ggplot(vdata, aes(x = log2FoldChange, y = -log10(pvalue), colour = threshold))
+p <- ggplot(vdata, aes(x = log2FoldChange, y = -log10(padj), colour = threshold))
 p1 <- p + geom_point(aes(color = vdata$threshold)) + geom_vline(xintercept = c(-1.5, 1.5), lty = 4, col = "black", lwd = 0.5) +
   geom_hline(yintercept = -log10(0.05), lty = 4, col = "black", lwd = 0.5)
 p2 <- p1 + scale_color_manual(values = c("blue", "grey", "red")) + geom_point(alpha = 0.4, size = 1.2)
