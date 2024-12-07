@@ -130,18 +130,17 @@ v4 <- p3 + theme(panel.grid.major = element_blank(), panel.grid.minor = element_
 ggsave(v4, file = "Human_protein_volcano.pdf", width = 5, height = 4)
 
 # PCA plot
-pcamat <- as.data.frame(t(human_dep2[, 3:6]))
+pcamat <- as.data.frame(t(human_all2_org[, 3:6]))
 rownames(pcamat) <- c("WT_Day0_S1", "WT_Day0_S2", "MT_Depletion_S1", "MT_Depletion_S2")
 pcamatgroup <- c(rep("WT", 2), rep("MT_Depletion", 2))
 pcamat <- pcamat[, colSums(pcamat) != 0]
-pca_result <- prcomp(pcamat, scale = FALSE, center = FALSE)
+pca_result <- prcomp(pcamat, scale = FALSE, center = TRUE)
 pca_result$x <- scale(pca_result$x)
 
 # Plot PCA results
-pdf(file = "Human_protein_MT_Depletion_pcaplot3.pdf", width = 6, height = 6)
+pdf(file = "Human_protein_MT_Depletion_pcaplot3.pdf", width = 4, height = 6)
 ggbiplot(pca_result,
          var.axes = FALSE,
-         obs.scale = 1,
          groups = pcamatgroup,
          ellipse = FALSE,
          circle = FALSE) +
@@ -233,11 +232,11 @@ geneLists = data.frame(symbol = fid)
 results_up = merge(geneLists, EG2symbol, by = 'symbol', all.x = TRUE)
 id_up = na.omit(results_up$gene_id)
 ego_up <- enrichGO(OrgDb = "org.Hs.eg.db", gene = id_up, ont = "ALL", pvalueCutoff = 0.05, minGSSize = 10, readable = TRUE)
-ego_up_result <- ego_up@result[ego_up@result$Count >= 5 & ego_up@result$pvalue < 0.05, ]
+ego_up_result <- ego_up@result[ego_up@result$Count >= 5 & ego_up@result$p.adjust < 0.05, ]
 write.csv(ego_up_result, "Human_mito_depletion_dep_UPGO.csv")
 
 # Draw GO enrichment bar plot for upregulated proteins
-ego_up_draw <- ego_up_result[1:10, ]
+ego_up_draw <- ego_up_result[1:min(10,nrow(ego_up_result)), ]
 p <- ggplot(ego_up_draw, aes(x = reorder(Description, Count), y = Count, fill = Count)) +
   geom_bar(stat = "identity", colour = "NA", width = 0.9, position = position_dodge(0.7)) +
   xlab("") + scale_y_continuous(name = "Gene Count", expand = c(0, 0), limits = c(0, (ceiling(max(ego_up_draw$Count) / 10) * 10 + 2))) + coord_flip() +
@@ -249,11 +248,11 @@ ggsave(p, filename = "Human_mito_depletion_dep_UPGO.pdf", height = 5, width = 10
 # KEGG pathway enrichment for upregulated proteins
 kegg_up <- enrichKEGG(organism = "hsa", gene = id_up, keyType = "kegg", pvalueCutoff = 0.05, minGSSize = 10)
 kegg_up <- setReadable(kegg_up, OrgDb = org.Hs.eg.db, keyType = "ENTREZID")
-kegg_up_result <- kegg_up@result[kegg_up@result$Count >= 5 & kegg_up@result$pvalue < 0.05, ]
+kegg_up_result <- kegg_up@result[kegg_up@result$Count >= 5 & kegg_up@result$p.adjust < 0.05, ]
 write.csv(kegg_up_result, "Human_mito_depletion_dep_UPKEGG.csv")
 
 # Draw KEGG pathway bar plot for upregulated proteins
-kegg_up_draw <- kegg_up_result[1:10, ]
+kegg_up_draw <- kegg_up_result[1:min(10,nrow(kegg_up_result)), ]
 p <- ggplot(kegg_up_draw, aes(x = reorder(Description, Count), y = Count, fill = Count)) +
   geom_bar(stat = "identity", colour = "NA", width = 0.9, position = position_dodge(0.7)) +
   xlab("") + scale_y_continuous(name = "Gene Count", expand = c(0, 0), limits = c(0, (ceiling(max(kegg_up_draw$Count) / 10) * 10 + 2))) + coord_flip() +
@@ -270,11 +269,11 @@ geneLists = data.frame(symbol = fid)
 results_down = merge(geneLists, EG2symbol, by = 'symbol', all.x = TRUE)
 id_down = na.omit(results_down$gene_id)
 ego_down <- enrichGO(OrgDb = "org.Hs.eg.db", gene = id_down, ont = "ALL", pvalueCutoff = 0.05, minGSSize = 10, readable = TRUE)
-ego_down_result <- ego_down@result[ego_down@result$Count >= 5 & ego_down@result$pvalue < 0.05, ]
+ego_down_result <- ego_down@result[ego_down@result$Count >= 5 & ego_down@result$p.adjust < 0.05, ]
 write.csv(ego_down_result, "Human_mito_depletion_dep_downGO.csv")
 
 # Draw GO enrichment bar plot for downregulated proteins
-ego_down_draw <- ego_down_result[1:10, ]
+ego_down_draw <- ego_down_result[1:min(10,nrow(ego_down_result)), ]
 p <- ggplot(ego_down_draw, aes(x = reorder(Description, Count), y = Count, fill = Count)) +
   geom_bar(stat = "identity", colour = "NA", width = 0.9, position = position_dodge(0.7)) +
   xlab("") + scale_y_continuous(name = "Gene Count", expand = c(0, 0), limits = c(0, (ceiling(max(ego_down_draw$Count) / 10) * 10 + 2))) + coord_flip() +
@@ -286,11 +285,11 @@ ggsave(p, filename = "Human_mito_depletion_dep_downGO.pdf", height = 5, width = 
 # KEGG pathway enrichment for downregulated proteins
 kegg_down <- enrichKEGG(organism = "hsa", gene = id_down, keyType = "kegg", pvalueCutoff = 0.05, minGSSize = 10)
 kegg_down <- setReadable(kegg_down, OrgDb = org.Hs.eg.db, keyType = "ENTREZID")
-kegg_down_result <- kegg_down@result[kegg_down@result$Count >= 5 & kegg_down@result$pvalue < 0.05, ]
+kegg_down_result <- kegg_down@result[kegg_down@result$Count >= 5 & kegg_down@result$p.adjust < 0.05, ]
 write.csv(kegg_down_result, "Human_mito_depletion_dep_downKEGG.csv")
 
 # Draw KEGG pathway bar plot for downregulated proteins
-kegg_down_draw <- kegg_down_result[1:10, ]
+kegg_down_draw <- kegg_down_result[1:min(10,nrow(kegg_down_result)), ]
 p <- ggplot(kegg_down_draw, aes(x = reorder(Description, Count), y = Count, fill = Count)) +
   geom_bar(stat = "identity", colour = "NA", width = 0.9, position = position_dodge(0.7)) +
   xlab("") + scale_y_continuous(name = "Gene Count", expand = c(0, 0), limits = c(0, (ceiling(max(kegg_down_draw$Count) / 10) * 10 + 2))) + coord_flip() +
