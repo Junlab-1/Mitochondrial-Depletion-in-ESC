@@ -15,10 +15,6 @@ The data analysis was primarily conducted using R software. This project mainly 
 - **Purpose**: Used for quality control, protein counts normalization, differential expression proteins (DEPs) calculation, function annotation, and visualization.
 - **Contents**: Scripts.
 
-### Phosphoproteomic Data Analysis Code
-- **Purpose**: Used for quality control, phosphopeptide counts normalization, differential expression phosphorylation proteins calculation, function annotation, and visualization.
-- **Contents**: Scripts.
-
 ### Marker Gene Files
 - **Purpose**: Indicate the cell differentiate trends of mitochondrial depletion cells based on DEGs and DEPs
 - **Contents**: Files
