@@ -15,11 +15,33 @@ do
 	mv temp/"$i"_2*.gz ./$file_2_trim
 	hfile_sam=$"$i"_h.sam
 	ofile_sam=$"$i"_o.sam
-	hisat2 -q --dta -p 8 -x ~/reference/hisat2_index/human/human_index -1 ./$file_1_trim -2 ./$file_2_trim  -S $hfile_sam  -t
-	hisat2 -q --dta -p 8 -x ~/reference/hisat2_index/orangutan/orangutan_index -1 ./$file_1_trim -2 ./$file_2_trim  -S $ofile_sam  -t
+        hisat2 -q --dta -p 8 -x ~/reference/hisat2_index/human_rmNUMT/human_nonumt_index -1 ../ho/$file_1_trim -2 ../ho/$file_2_trim  -S $hfile_sam  -t
+	hisat2 -q --dta -p 8 -x ~/reference/hisat2_index/orangutan_rmNUMT/orangutan_nonumt_index -1 ../ho/$file_1_trim -2 ../ho/$file_2_trim  -S $ofile_sam  -t \
 	hfile_bam=$"$i"_h.bam
 	ofile_bam=$"$i"_o.bam
 	#tranfer from sam to bam
 	samtools sort -@ 8 -o $hfile_bam $hfile_sam
 	samtools sort -@ 8 -o $ofile_bam $ofile_sam
+	hfile_waspbam=$"$i"_hwasp.bam
+	ofile_waspbam=$"$i"_owasp.bam
+	hfile_waspsortbam=$"$i"_hwaspsort.bam
+	ofile_waspsortbam=$"$i"_owaspsort.bam
+	python $HOME/software/WASP/mapping/rmdup_pe.py $hfile_bam ./$hfile_waspbam
+	python $HOME/software/WASP/mapping/rmdup_pe.py $ofile_bam ./$ofile_waspbam
+	human_folder=$"h""$i"_all
+	orangutan_folder=$"o""$i"_all
+	mkdir human_all_gtf/$human_folder orangutan_all_gtf/$orangutan_folder
+	samtools sort -@ 8 -o ./$hfile_waspsortbam ./$hfile_waspbam
+	samtools sort -@ 8 -o ./$ofile_waspsortbam ./$ofile_waspbam
+	stringtie -e -B -p 8 -G ~/reference/FastaGTF/human/rmNUMTs/rmNUMTgtf/human_filt_nomunt_MTfix.gtf ./$hfile_waspsortbam -o ./human_all_gtf/$human_folder/output_merge.gtf
+	stringtie -e -B -p 8 -G ~/reference/FastaGTF/orangutan/rmNUMTs/rmNUMTgtf/orangutan_filt_nonumt_MTfix.gtf ./$ofile_waspsortbam -o ./orangutan_all_gtf/$orangutan_folder/output_merge.gtf
 done
+
+mkdir all_genecount
+cd all_genecount
+~/miniconda3/envs/py27/bin/python2.7 ~/software/newprepDE/prepDE.py -i ../human_all_gtf -g human_ho_gene_wasp_nonumt.csv -t human_ho_gene_transcript_wasp_nonumt.csv
+~/miniconda3/envs/py27/bin/python2.7 ~/software/newprepDE/prepDE.py -i ../orangutan_all_gtf -g orangutan_ho_gene_wasp_nonumt.csv -t orangutan_ho_gene_transcript_wasp_nonumt.csv
+~/miniconda3/envs/py27/bin/python2.7 ~/software/newprepDE/getTPM.py -i ../human_all_gtf -g human_ho_tpm_wasp_nonumt.csv -t human_ho_tpm_transcript_wasp_nonumt.csv
+~/miniconda3/envs/py27/bin/python2.7 ~/software/newprepDE/getTPM.py -i ../orangutan_all_gtf -g orangutan_ho_tpm_wasp_nonumt.csv -t orangutan_ho_tpm_transcript_wasp_nonumt.csv
+
+
