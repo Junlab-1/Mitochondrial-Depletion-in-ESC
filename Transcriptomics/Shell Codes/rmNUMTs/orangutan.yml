@@ -1,0 +1,38 @@
+# Can be GTF or GFF3, gzipped or not
+# omit if you only want to mask FASTA
+annotation: "/home/DX6/jwulab/S227384/reference/FastaGTF/orangutan/orangutan.gtf"
+# If true, all mitochondrial genes will be removed
+# from the annotation, and mitochondrion will be
+# re-annotated by lifting the Human gencode annotation
+# to your genome. If false, mitochondrial genes will
+# be removed from nuclear sequences, but the
+# mitochondrial genes themselves will be left alone.
+# If using a CAT annotation, set to true.
+lift_human_MT: false
+# Name of field marking gene IDs in annotation
+# Default = gene_id
+gene_id: "gene_id"
+# Name of field marking gene names in annotation
+# Default = gene_name
+gene_name: "gene_name"
+# Can be gzipped or not
+genome: "/home/DX6/jwulab/S227384/reference/FastaGTF/orangutan/Pongo_abelii.Susie_PABv2.dna.toplevel.fa"
+# Directory for output files
+out: "out"
+# Name of mitochondrial sequence 
+# (default = chrM, can exclude)
+chrM: "MT"
+# Sequences shorter than this length will
+# be removed
+min_len: 500
+# Pipe-separated matching patterns to 
+# filter unwanted reference genome
+# chromosomes/scaffolds
+exclude: "chrUn|random|_alt"
+threads: 1
+# K-mer size to use for mappability mask  
+bl_kmer: 50
+# Minimum number of consecutive low-mappability
+# bases for a region to be included in the
+# low-mappability mask
+bl_run: 500
