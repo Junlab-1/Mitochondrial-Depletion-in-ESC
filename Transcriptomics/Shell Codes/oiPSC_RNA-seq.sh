@@ -12,16 +12,12 @@ do
 	ofile_bam=$"$i"_o.bam
 	#tranfer from sam to bam
 	samtools sort -@ 8 -o $ofile_bam $ofile_sam
-	ofile_waspbam=$"$i"_owasp.bam
-	ofile_waspsortbam=$"$i"_owaspsort.bam
-	python $HOME/software/WASP/mapping/rmdup_pe.py $ofile_bam ./$ofile_waspbam
 	orangutan_folder=$"o""$i"_all
 	mkdir orangutan_rmNUMT_gtf/$orangutan_folder
-	samtools sort -@ 8 -o ./$ofile_waspsortbam ./$ofile_waspbam
-	stringtie -e -B -p 8 -G ~/reference/FastaGTF/orangutan/rmNUMTs/rmNUMTgtf/orangutan_filt_nonumt_MTfix.gtf ./$ofile_waspsortbam -o ./orangutan_rmNUMT_gtf/$orangutan_folder/output_merge.gtf
+	stringtie -e -B -p 8 -G ~/reference/FastaGTF/orangutan/rmNUMTs/rmNUMTgtf/orangutan_filt_nonumt_MTfix.gtf ./$ofile_bam -o ./orangutan_rmNUMT_gtf/$orangutan_folder/output_merge.gtf
 done
 
 mkdir all_genecount
 cd all_genecount
-~/miniconda3/envs/py27/bin/python2.7 ~/software/newprepDE/prepDE.py -i ../orangutan_rmNUMT_gtf -g orangutan_control_gene_wasp_nonumt.csv -t orangutan_control_gene_transcript_wasp_nonumt.csv
-~/miniconda3/envs/py27/bin/python2.7 ~/software/newprepDE/getTPM.py -i ../orangutan_rmNUMT_gtf -g orangutan_control_tpm_wasp_nonumt.csv -t orangutan_control_tpm_transcript_wasp_nonumt.csv
+~/miniconda3/envs/py27/bin/python2.7 ~/software/newprepDE/prepDE.py -i ../orangutan_rmNUMT_gtf -g orangutan_control_gene_nonumt.csv -t orangutan_control_gene_transcript_nonumt.csv
+~/miniconda3/envs/py27/bin/python2.7 ~/software/newprepDE/getTPM.py -i ../orangutan_rmNUMT_gtf -g orangutan_control_tpm_nonumt.csv -t orangutan_control_tpm_transcript_nonumt.csv
