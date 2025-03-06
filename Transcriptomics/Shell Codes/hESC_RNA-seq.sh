@@ -12,16 +12,12 @@ do
 	hfile_bam=$"$i"_h.bam
 	#tranfer from sam to bam
 	samtools sort -@ 8 -o $hfile_bam $hfile_sam
-	hfile_waspbam=$"$i"_hwasp.bam
-	hfile_waspsortbam=$"$i"_hwaspsort.bam
-	python $HOME/software/WASP/mapping/rmdup_pe.py $hfile_bam ./$hfile_waspbam
 	human_folder=$"h""$i"_all
 	mkdir human_rmNUMT_gtf/$human_folder
-	samtools sort -@ 8 -o ./$hfile_waspsortbam ./$hfile_waspbam
-	stringtie -e -B -p 8 -G ~/reference/FastaGTF/human/rmNUMTs/rmNUMTgtf/human_filt_nomunt_MTfix.gtf ./$hfile_waspsortbam -o ./human_rmNUMT_gtf/$human_folder/output_merge.gtf
+	stringtie -e -B -p 8 -G ~/reference/FastaGTF/human/rmNUMTs/rmNUMTgtf/human_filt_nomunt_MTfix.gtf ./$hfile_bam -o ./human_rmNUMT_gtf/$human_folder/output_merge.gtf
 done
 
 mkdir all_genecount
 cd all_genecount
-~/miniconda3/envs/py27/bin/python2.7 ~/software/newprepDE/prepDE.py -i ../human_rmNUMT_gtf -g human_control_gene_wasp_nonumt.csv -t human_control_gene_transcript_wasp_nonumt.csv
-~/miniconda3/envs/py27/bin/python2.7 ~/software/newprepDE/getTPM.py -i ../human_rmNUMT_gtf -g human_control_tpm_wasp_nonumt.csv -t human_control_tpm_transcript_wasp_nonumt.csv
+~/miniconda3/envs/py27/bin/python2.7 ~/software/newprepDE/prepDE.py -i ../human_rmNUMT_gtf -g human_control_gene_nonumt.csv -t human_control_gene_transcript_nonumt.csv
+~/miniconda3/envs/py27/bin/python2.7 ~/software/newprepDE/getTPM.py -i ../human_rmNUMT_gtf -g human_control_tpm_nonumt.csv -t human_control_tpm_transcript_nonumt.csv
